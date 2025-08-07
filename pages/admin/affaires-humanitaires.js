@@ -101,7 +101,7 @@ export default function AffairesHumanitairesAdmin() {
         return;
       }
       const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
-      imageUrls.push(publicUrl);
+        imageUrls.push(publicUrl);
     }
 
     const payload = {
@@ -118,7 +118,8 @@ export default function AffairesHumanitairesAdmin() {
       work_type: form.work_type,                // Added to payload
       description: form.description,
       signataire: user.id,
-      images: imageUrls
+      images: imageUrls,
+      created_by_user_id: user.id
     };
 
     const { error: insertError } = await supabase.from('affaires_humanitaires').insert([payload]);

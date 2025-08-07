@@ -88,12 +88,12 @@ export default function ActionSocialeAdmin() {
       const fileExt = file.name.split('.').pop();
       const fileName = `action-sociale/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
       const { data, error } = await supabase.storage.from('images').upload(fileName, file);
-      if (error) {
-        setSubmitMsg('Erreur upload image: ' + error.message);
-        return;
-      }
-      const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
-      imageUrls.push(publicUrl);
+        if (error) {
+          setSubmitMsg('Erreur upload image: ' + error.message);
+          return;
+        }
+        const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
+        imageUrls.push(publicUrl);
     }
 
     const payload = {
@@ -108,7 +108,8 @@ export default function ActionSocialeAdmin() {
       nombre_participants_femmes: parseInt(form.nombre_participants_femmes) || 0,
       description: form.description,
       signataire: user.id,
-      images: imageUrls
+      images: imageUrls,
+      created_by_user_id: user.id
     };
 
     const { error: insertError } = await supabase.from('action_sociale').insert([payload]);
@@ -178,10 +179,9 @@ export default function ActionSocialeAdmin() {
             <label>Description détaillée</label>
             <textarea name="description" value={form.description} onChange={handleChange} rows={4} />
           </div>
-
           <div className="form-field-full">
             <label>Joindre des photos (jusqu'à 3)</label>
-            <div style={{ display: 'flex', gap: 18 }}>
+            <div className="image-upload-section" style={{ display: 'flex', gap: 18 }}>
               {[0, 1, 2].map(idx => (
                 <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <label htmlFor={`photo-upload-${idx}`} style={{
@@ -189,7 +189,7 @@ export default function ActionSocialeAdmin() {
                     borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'pointer', fontSize: 32, marginBottom: 4
                   }}>
-                    {images[idx] ? '🖼️' : '+'}
+                    {images[idx] ? 'صورة' : '+'}
                     <input id={`photo-upload-${idx}`} type="file" accept="image/*" style={{ display: 'none' }}
                            onChange={e => handleImageChange(idx, e.target.files?.[0])} />
                   </label>

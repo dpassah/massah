@@ -82,6 +82,12 @@ export default function AdminAides() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMsg('Envoi en cours...');
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setSubmitMsg('Erreur: Utilisateur non authentifié. Veuillez vous reconnecter.');
+      return;
+    }
+
     let imageUrls = [];
     if (images.length > 0) {
       for (let i = 0; i < images.length; i++) {
@@ -111,7 +117,8 @@ export default function AdminAides() {
       montant: form.montant || null,
       description: form.description,
       signataire: form.signataire,
-      images: imageUrls
+      images: imageUrls,
+      created_by_user_id: user.id
     };
 
     const { error: insertError } = await supabase.from('aides').insert([dbData]);
@@ -183,14 +190,14 @@ export default function AdminAides() {
             <label style={{fontWeight:700,marginBottom:4,display:'block'}}>Description</label>
             <textarea name="description" value={form.description} onChange={handleChange} placeholder="Décrire brièvement la situation..." style={{width:'100%',marginBottom:6,borderRadius:10,border:'1.5px solid #b3c0d1',padding:'0.8rem',fontWeight:500,fontSize:'1.08rem',background:'#fafdff'}} rows={3} />
             <label style={{fontWeight:700,marginBottom:4,display:'block'}}>Joindre des photos (jusqu'à 3)</label>
-            <div style={{display:'flex',gap:18,marginBottom:10}}>
+            <div className="image-upload-section" style={{display:'flex',gap:18,marginBottom:10}}>
               {[0,1,2].map((idx) => (
                 <div key={idx} style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                   <label htmlFor={`photo-upload-${idx}`} style={{
                     width:70,height:70,background:'#f6f8fa',border:'2px dashed #b3c0d1',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',transition:'border 0.2s',fontSize:idx===0?32:28,marginBottom:6
                   }}>
                     {images[idx] ? (
-                      <span role="img" aria-label="image">🖼️</span>
+                      <span role="img" aria-label="image">صورة</span>
                     ) : (
                       <span style={{fontSize:32,color:'#b3c0d1'}}>+</span>
                     )}
@@ -227,37 +234,55 @@ export default function AdminAides() {
           padding: 1.5rem !important;
         }
         @media (max-width: 768px) {
+          .admin-form-container {
+            padding: 1rem !important;
+          }
+          h1 {
+            font-size: 1.4rem !important;
+            margin-bottom: 1.5rem !important;
+          }
           form {
             grid-template-columns: 1fr !important;
-            gap: 1.5rem !important;
+            gap: 1rem !important;
           }
           form > div {
-            gap: 10px !important;
+            gap: 8px !important;
           }
           form > div > label {
             margin-bottom: 0 !important;
+            font-size: 0.9rem !important;
           }
           form > div > input,
           form > div > select,
           form > div > textarea {
             margin-bottom: 0 !important;
-            padding: 0.6rem !important;
-            font-size: 1rem !important;
+            padding: 0.5rem !important;
+            font-size: 0.95rem !important;
           }
           .image-upload-section {
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px !important;
+            margin-bottom: 0 !important;
           }
           .image-upload-section > div {
-            margin-bottom: 10px;
+            margin-bottom: 0px;
           }
           .image-upload-section label {
-            width: 60px !important;
-            height: 60px !important;
-            font-size: 28px !important;
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 24px !important;
           }
           .image-upload-section div div {
-            font-size: 11px !important;
+            font-size: 10px !important;
+          }
+          button[type="submit"] {
+            padding: 0.8rem 2rem !important;
+            font-size: 1rem !important;
+            margin-top: 1rem !important;
+          }
+          div[style*="marginTop:14"] {
+            font-size: 0.95rem !important;
           }
         }
       `}</style>

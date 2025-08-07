@@ -158,43 +158,43 @@ export default function AdminInondations() {
           {/* Section numérique */}
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1.2rem 2%'}}>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>👥 Affectés <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Affectés <span style={{color:'e53935'}}>*</span></label>
               <input name="nbAffectes" type="number" min="0" value={form.nbAffectes} onChange={handleChange} placeholder="Personnes" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🏠 Ménages <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Ménages <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbMenages" type="number" min="0" value={form.nbMenages} onChange={handleChange} placeholder="Ménages" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>❓ Disparus <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Disparus <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbDisparus" type="number" min="0" value={form.nbDisparus} onChange={handleChange} placeholder="Disparus" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🤕 Blessés <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Blessés <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbBlesses" type="number" min="0" value={form.nbBlesses} onChange={handleChange} placeholder="Blessés" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>⚰️ Décès <span style={{color:'#e53939'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Décès <span style={{color:'#e53939'}}>*</span></label>
               <input name="nbDeces" type="number" min="0" value={form.nbDeces} onChange={handleChange} placeholder="Décès" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🚚 Déplacés <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Déplacés <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbDeplaces" type="number" min="0" value={form.nbDeplaces} onChange={handleChange} placeholder="Déplacés" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🏚️ Maisons détruites <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Maisons détruites <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbMaisonsDetruites" type="number" min="0" value={form.nbMaisonsDetruites} onChange={handleChange} placeholder="Détruites" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🏚️ Maisons endommagées <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Maisons endommagées <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbMaisonsEndommagees" type="number" min="0" value={form.nbMaisonsEndommagees} onChange={handleChange} placeholder="Endommagées" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🐄 Bétail perdu <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Bétail perdu <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbBetailPerdu" type="number" min="0" value={form.nbBetailPerdu} onChange={handleChange} placeholder="Perdu" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column'}}>
-              <label style={{fontWeight:600,marginBottom:2}}>🐄 Bétail mort <span style={{color:'#e53935'}}>*</span></label>
+              <label style={{fontWeight:600,marginBottom:2}}>Bétail mort <span style={{color:'#e53935'}}>*</span></label>
               <input name="nbBetailMort" type="number" min="0" value={form.nbBetailMort} onChange={handleChange} placeholder="Mort" required style={{background:'#fafdff',border:'1.5px solid #b3c0d1',borderRadius:10,padding:'0.6rem',fontWeight:500}} />
             </div>
             <div style={{display:'flex',flexDirection:'column',gridColumn:'1/3'}}>
@@ -208,14 +208,14 @@ export default function AdminInondations() {
             <label style={{fontWeight:700,marginBottom:4,display:'block'}}>Description <span style={{color:'#e53935'}}>*</span></label>
             <textarea name="description" value={form.description} onChange={handleChange} placeholder="Décrire brièvement la situation..." style={{width:'100%',marginBottom:6,borderRadius:10,border:'1.5px solid #b3c0d1',padding:'0.8rem',fontWeight:500,fontSize:'1.08rem',background:'#fafdff'}} rows={3} required />
             <label style={{fontWeight:700,marginBottom:4,display:'block'}}>Joindre des photos (jusqu'à 3)</label>
-            <div style={{display:'flex',gap:18,marginBottom:10}}>
+            <div className="image-upload-section" style={{display:'flex',gap:18,marginBottom:10}}>
               {[0,1,2].map((idx) => (
                 <div key={idx} style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                   <label htmlFor={`photo-upload-${idx}`} style={{
                     width:70,height:70,background:'#f6f8fa',border:'2px dashed #b3c0d1',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',transition:'border 0.2s',fontSize:idx===0?32:28,marginBottom:6
                   }}>
                     {images[idx] ? (
-                      <span role="img" aria-label="image">🖼️</span>
+                      <span role="img" aria-label="image">صورة</span>
                     ) : (
                       <span style={{fontSize:32,color:'#b3c0d1'}}>+</span>
                     )}
@@ -255,37 +255,55 @@ export default function AdminInondations() {
           padding: 1.5rem !important;
         }
         @media (max-width: 768px) {
+          .admin-form-container {
+            padding: 1rem !important;
+          }
+          h1 {
+            font-size: 1.4rem !important;
+            margin-bottom: 1.5rem !important;
+          }
           form {
             grid-template-columns: 1fr !important;
-            gap: 1.5rem !important;
+            gap: 1rem !important;
           }
           form > div {
-            gap: 10px !important;
+            gap: 8px !important;
           }
           form > div > label {
             margin-bottom: 0 !important;
+            font-size: 0.9rem !important;
           }
           form > div > input,
           form > div > select,
           form > div > textarea {
             margin-bottom: 0 !important;
-            padding: 0.6rem !important;
-            font-size: 1rem !important;
+            padding: 0.5rem !important;
+            font-size: 0.95rem !important;
           }
           .image-upload-section {
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px !important;
+            margin-bottom: 0 !important;
           }
           .image-upload-section > div {
-            margin-bottom: 10px;
+            margin-bottom: 0px;
           }
           .image-upload-section label {
-            width: 60px !important;
-            height: 60px !important;
-            font-size: 28px !important;
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 24px !important;
           }
           .image-upload-section div div {
-            font-size: 11px !important;
+            font-size: 10px !important;
+          }
+          button[type="submit"] {
+            padding: 0.8rem 2rem !important;
+            font-size: 1rem !important;
+            margin-top: 1rem !important;
+          }
+          div[style*="marginTop:14"] {
+            font-size: 0.95rem !important;
           }
         }
       `}</style>

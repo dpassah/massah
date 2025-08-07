@@ -1,5 +1,7 @@
+/* 导入字体 */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
+/* 全局样式 */
 body {
   margin: 0;
   font-family: 'Montserrat', Arial, sans-serif;
@@ -7,20 +9,67 @@ body {
   color: #222;
 }
 
+/* 顶部导航栏 */
 header {
   background: #143c6d;
   color: #fff;
   padding: 1.5rem 0 1rem 0;
   box-shadow: 0 2px 8px rgba(20,60,109,0.07);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
-nav {
+.header-left-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.header-logo {
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid #143c6d;
+  box-shadow: 0 2px 8px rgba(20,60,109,0.15);
+  width: 60px;
+  height: 60px;
+}
+
+.header-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.header-subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.sidebar-nav {
   display: flex;
   justify-content: center;
   gap: 2rem;
 }
 
-nav a {
+.sidebar-nav a {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
@@ -28,8 +77,31 @@ nav a {
   transition: color 0.2s;
 }
 
-nav a:hover {
+.sidebar-nav a:hover {
   color: #f7c873;
+}
+
+.admin-link {
+  font-weight: 700;
+  color: #f9c846;
+}
+
+.my-reports-link {
+  font-weight: 700;
+  color: #143c6d;
+  background: #f9c846;
+  border-radius: 8px;
+  padding: 2px 12px;
+  margin-left: 12px;
+}
+
+.admin-gestion-link,
+.admin-comptes-link {
+  font-weight: 700;
+  color: #fff;
+  background: #143c6d;
+  border-radius: 8px;
+  padding: 2px 12px;
 }
 
 .main-content {
@@ -77,73 +149,143 @@ nav a:hover {
   font-size: 0.95rem;
 }
 
+/* 电脑端样式 */
+.desktop-auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.desktop-auth-buttons button {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.desktop-auth-buttons button:hover {
+  opacity: 0.9;
+}
+
+.desktop-auth-buttons button[onClick*="handleLogout"] {
+  background: #f44336;
+}
+
+/* 移动端样式 */
+.mobile-auth-buttons {
+  display: none;
+}
+
+.mobile-auth-buttons button {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.mobile-auth-buttons button:hover {
+  opacity: 0.9;
+}
+
+.mobile-auth-buttons button[onClick*="handleLogout"] {
+  background: #f4436;
+}
+
+.sidebar-toggle {
+  display: none;
+}
+
+.sidebar-container {
+  position: static;
+  width: auto;
+  height: auto;
+  background: none;
+  padding-top: 0;
+  transition: none;
+  z-index: auto;
+}
+
+/* 媒体查询：移动端 */
 @media (max-width: 768px) {
   header {
     padding: 1rem 0;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  .header-left-group {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
   }
 
-  nav a {
-    font-size: 1rem;
-  }
-
-  .main-header .header-content {
-    flex-direction: row !important;
-    justify-content: flex-start !important;
+  .header-content {
+    flex-direction: row;
+    justify-content: flex-start;
     padding: 0 1rem;
   }
 
-  .main-header .header-content img {
-    width: 60px !important;
-    height: 60px !important;
+  .header-logo {
+    width: 60px;
+    height: 60px;
   }
 
-  .main-header .header-content h1 {
-    font-size: 1.1rem !important;
+  .header-title {
+    font-size: 1.1rem;
   }
 
-  .main-header .header-content h2 {
-    font-size: 0.9rem !important;
+  .header-subtitle {
+    font-size: 0.9rem;
   }
 
   .sidebar-container {
     position: fixed;
     top: 0;
-    left: -250px;
+    right: -250px;
     width: 250px;
     height: 100%;
     background: #143c6d;
     padding-top: 60px;
-    transition: left 0.3s ease;
+    transition: right 0.3s ease;
     z-index: 1000;
   }
 
   .sidebar-container.open {
-    left: 0;
+    right: 0;
   }
 
-  .sidebar-container nav {
+  .sidebar-nav {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
     padding: 1rem;
   }
 
-  .sidebar-container nav a {
-    color: #fff;
+  .sidebar-nav a {
     font-size: 1.1rem;
   }
 
+  .desktop-auth-buttons {
+    display: none;
+  }
+
+  .mobile-auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .sidebar-toggle {
-    display: none; /* Hide by default */
+    display: block;
     position: absolute;
     top: 15px;
-    left: 15px;
+    right: 15px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -176,27 +318,21 @@ nav a:hover {
     bottom: -8px;
   }
 
-  @media (max-width: 768px) {
-    .sidebar-toggle {
-      display: block; /* Show on mobile */
-    }
-  }
-
   .admin-dashboard {
-    padding: 1.5rem !important;
+    padding: 1.5rem;
   }
 
   .admin-dashboard h1 {
-    font-size: 1.4rem !important;
+    font-size: 1.4rem;
   }
 
   .admin-dashboard div[style*="grid"] {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .admin-table-container {
-    padding: 1.5rem !important;
+    padding: 1.5rem;
   }
 
   .admin-table-container table {
@@ -207,31 +343,31 @@ nav a:hover {
 
   .admin-table-container th,
   .admin-table-container td {
-    font-size: 0.8rem !important;
-    padding: 6px 2px !important;
+    font-size: 0.8rem;
+    padding: 6px 2px;
   }
 
   .admin-form-container {
-    padding: 1.5rem !important;
+    padding: 1.5rem;
   }
 
   .admin-form-container form > div {
-    margin-bottom: 0.8rem !important;
+    margin-bottom: 0.8rem;
   }
 
   .admin-form-container form label {
-    font-size: 0.9rem !important;
+    font-size: 0.9rem;
   }
 
   .admin-form-container form input,
   .admin-form-container form select,
   .admin-form-container form textarea {
-    padding: 0.6rem !important;
-    font-size: 0.9rem !important;
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
 
   .admin-form-container form button {
-    padding: 0.6rem 1rem !important;
-    font-size: 0.9rem !important;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
   }
 }
