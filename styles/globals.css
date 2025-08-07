@@ -31,9 +31,9 @@ header {
 .header-content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  justify-content: flex-start; /* Align items to the start to keep logo left */
+  gap: 1rem; /* Slightly reduce gap for mobile */
+  flex-wrap: nowrap; /* Prevent wrapping */
 }
 
 .header-logo {
@@ -237,7 +237,7 @@ header {
   }
 
   .header-title {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 
   .header-subtitle {
