@@ -61,7 +61,7 @@ export default function AdminAides() {
               signataire: data?.nom_delegue || p || ''
             }));
             if (!data?.province) {
-              alert('Attention : Aucune province n'est enregistrée pour ce compte dans la base de données.');
+              alert("Attention : Aucune province n'est enregistrée pour ce compte dans la base de données.");
             }
           });
       }

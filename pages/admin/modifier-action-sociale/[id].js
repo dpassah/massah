@@ -59,7 +59,7 @@ export default function ModifierActionSociale() {
         imagesArray.push(null);
       }
       setForm({
-        ...
+        ...form,
         images: imagesArray,
         nombre_participants_hommes: data.nombre_participants_hommes || '',
         nombre_participants_femmes: data.nombre_participants_femmes || '',
@@ -125,7 +125,7 @@ export default function ModifierActionSociale() {
 
     const { created_at, id: formId, ...updateData } = form;
     const { error: updateError } = await supabase.from('action_sociale').update({
-      ...
+      ...form,
       images: imageUrls,
       nombre_participants_hommes: parseInt(updateData.nombre_participants_hommes, 10) || 0,
       nombre_participants_femmes: parseInt(updateData.nombre_participants_femmes, 10) || 0,

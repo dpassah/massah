@@ -39,7 +39,7 @@ export default function CreerRapport() {
           const filePath = `${username}_${Date.now()}_${i}.${fileExt}`;
           let { error: uploadError } = await supabase.storage.from('rapports').upload(filePath, file);
           if (uploadError) throw uploadError;
-          const { data } = supabase.storage.from('rapports').getPublicUrl(filePath);
+          const { data } = await supabase.storage.from('rapports').getPublicUrl(filePath);
           imageUrls.push(data.publicUrl);
         }
       }
@@ -122,6 +122,8 @@ export default function CreerRapport() {
               <div style={{ fontSize: 13, color: '#1976d2', marginTop: 6 }}>
                 Images sélectionnées : {images.map(f => f.name).join(', ')}
               </div>
+            )}
+          </div>
           {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
           {success && <div style={{ color: 'green', marginBottom: 12 }}>Rapport créé avec succès !</div>}
           <div style={{ display: 'flex', gap: 16 }}>
@@ -129,7 +131,7 @@ export default function CreerRapport() {
               {creating ? 'Création en cours...' : 'Créer le rapport'}
             </button>
             <button type="button" onClick={() => router.push('/mes-rapports')} style={{ background: '#bdbdbd', color: '#143c6d', border: 'none', borderRadius: 6, padding: '10px 18px', fontWeight: 700, fontSize: 16 }}>
-              إلغاء
+              Annuler
             </button>
           </div>
         </form>
