@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
 import { supabase } from '../lib/supabaseClient';
+import styles from '../styles/home.module.css'; // Import the CSS module
 
 const formatDate = (dateString) => {
   if (!dateString) return 'Date inconnue';
@@ -46,24 +47,16 @@ const ItemCard = ({ item, type }) => {
   }
 
   return (
-    <div style={{ background: '#fff', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.07)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div className={styles.itemCard}>
       {image && (
-        <img src={image} alt={title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+        <img src={image} alt={title} className={styles.itemCardImage} />
       )}
-      <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-        <h3 style={{ fontSize: '1.3rem', color: '#143c6d', margin: '0 0 1rem 0' }}>{title}</h3>
-        <p style={{ fontSize: '0.95rem', color: '#555', lineHeight: '1.6', flexGrow: 1 }}>{details ? details.substring(0, 120) + '...' : ''}</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
-          <p style={{ fontSize: '0.85rem', color: '#888', margin: 0 }}>{formatDate(item.created_at)}</p>
-          <Link href={link} style={{
-            padding: '7px 16px',
-            background: '#143c6d',
-            color: 'white',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontWeight: 500,
-            fontSize: '0.9rem'
-          }}>
+      <div className={styles.itemCardContent}>
+        <h3 className={styles.itemCardTitle}>{title}</h3>
+        <p className={styles.itemCardDetails}>{details ? details.substring(0, 120) + '...' : ''}</p>
+        <div className={styles.itemCardFooter}>
+          <p className={styles.itemCardDate}>{formatDate(item.created_at)}</p>
+          <Link href={link} className={styles.itemCardLink}>
             Lire plus
           </Link>
         </div>
@@ -73,33 +66,24 @@ const ItemCard = ({ item, type }) => {
 };
 
 const DataSection = ({ title, items, type, loading, onLoadMore, hasMore }) => (
-  <section style={{ marginBottom: '4rem' }}>
-    <h2 style={{ fontSize: '2.2rem', fontWeight: 700, color: '#143c6d', marginBottom: '2rem', borderBottom: '3px solid #143c6d', paddingBottom: '1rem' }}>
+  <section className={styles.dataSection}>
+    <h2 className={styles.dataSectionTitle}>
       {title}
     </h2>
     {loading ? (
       <p>Chargement...</p>
     ) : items && items.length > 0 ? (
       <>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+        <div className={styles.dataGrid}>
           {items.map((item) => (
             <ItemCard key={`${type}-${item.id}`} item={item} type={type} />
           ))}
         </div>
         {hasMore && (
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <div className={styles.loadMoreContainer}>
             <button
               onClick={onLoadMore}
-              style={{
-                padding: '10px 20px',
-                background: '#143c6d',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: 500,
-              }}
+              className={styles.loadMoreButton}
             >
               Voir plus
             </button>
@@ -190,8 +174,8 @@ export default function Home() {
         <meta name="description" content="Tableau de bord et dernières mises à jour sur les actions sociales, la solidarité et les affaires humanitaires." />
       </Head>
 
-      <div style={{ padding: '3rem 1rem', background: '#f4f7fa' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className={styles.mainContentWrapper}>
+        <div className={styles.mainContentInner}>
           
           
           <DataSection

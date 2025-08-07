@@ -1,0 +1,202 @@
+.itemCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemCardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.itemCardContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.itemCardTitle {
+  font-size: 1.3rem;
+  color: #143c6d;
+  margin: 0 0 1rem 0;
+}
+
+.itemCardDetails {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.itemCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.itemCardDate {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.itemCardLink {
+  padding: 7px 16px;
+  background: #143c6d;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dataSection {
+  margin-bottom: 4rem;
+}
+
+.dataSectionTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #143c6d;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #143c6d;
+  padding-bottom: 1rem;
+}
+
+.dataGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.loadMoreContainer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.loadMoreButton {
+  padding: 10px 20px;
+  background: #143c6d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.mainContentWrapper {
+  padding: 3rem 1rem;
+  background: #f4f7fa;
+}
+
+.mainContentInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Media Queries for responsiveness */
+
+/* For screens smaller than 768px (tablets and phones) */
+@media (max-width: 768px) {
+  .dataSectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .dataGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .itemCardImage {
+    height: 180px;
+  }
+
+  .itemCardContent {
+    padding: 1rem;
+  }
+
+  .itemCardTitle {
+    font-size: 1.1rem;
+  }
+
+  .itemCardDetails {
+    font-size: 0.9rem;
+  }
+
+  .itemCardLink {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .mainContentWrapper {
+    padding: 2rem 0.5rem;
+  }
+
+  .mainContentInner {
+    padding: 0 1rem;
+  }
+}
+
+/* For screens smaller than 480px (smaller phones) */
+@media (max-width: 480px) {
+  .dataSectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .dataGrid {
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 1rem;
+  }
+
+  .itemCardImage {
+    height: 150px;
+  }
+
+  .itemCardContent {
+    padding: 0.8rem;
+  }
+
+  .itemCardTitle {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .itemCardDetails {
+    font-size: 0.85rem;
+  }
+
+  .itemCardFooter {
+    flex-direction: column; /* Stack date and link */
+    align-items: flex-start;
+    margin-top: 1rem;
+  }
+
+  .itemCardLink {
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .loadMoreButton {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
+
+  .mainContentWrapper {
+    padding: 1rem 0.2rem;
+  }
+
+  .mainContentInner {
+    padding: 0 0.5rem;
+  }
+}
