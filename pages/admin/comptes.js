@@ -44,16 +44,16 @@ export default function AdminComptes() {
 
         if (error) {
           console.error(`Error clearing data from ${tableName}:`, error);
-          alert(`فشل مسح البيانات من جدول ${tableName}.`);
+          alert(`Échec de la suppression des données de la table ${tableName}.`);
           success = false;
           break;
         }
       }
       setLoading(false);
       if (success) {
-        alert('تم مسح جميع بيانات التقارير بنجاح.');
+        alert('Toutes les données de rapport ont été effacées avec succès.');
       } else {
-        alert('حدث خطأ أثناء مسح بعض بيانات التقارير. يرجى التحقق من وحدة التحكم.');
+        alert("Une erreur est survenue lors de l'effacement de certaines données de rapport. Veuillez vérifier la console.");
       }
       fetchUsers(); // Re-fetch users to ensure display is updated if needed
     }

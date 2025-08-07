@@ -3,6 +3,7 @@ import Layout from '../../../components/Layout';
 import { supabase } from '../../../lib/supabaseClient';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import ImageManager from '../../../components/ImageManager'; // Import the new ImageManager
 
 export default function ModifierActualite() {
   const router = useRouter();
@@ -11,9 +12,10 @@ export default function ModifierActualite() {
     title: '',
     details: '',
   });
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([null, null, null]); // Initialize with 3 nulls
   const [submitMsg, setSubmitMsg] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = true;
+  const [initialImages, setInitialImages] = useState([null, null, null]); // To track original images for deletion
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -40,9 +42,13 @@ export default function ModifierActualite() {
       setSubmitMsg('Erreur lors du chargement de l\'actualité.');
     } else if (data) {
       setForm({ title: data.title, details: data.details });
-      if (data.images && Array.isArray(data.images)) {
-        setImages(data.images);
+      // Ensure images array has 3 elements, filling with null if less
+      const imagesArray = data.images ? [...data.images] : [];
+      while (imagesArray.length < 3) {
+        imagesArray.push(null);
       }
+      setImages(imagesArray);
+      setInitialImages(imagesArray);
     }
     setLoading(false);
   }
@@ -52,31 +58,48 @@ export default function ModifierActualite() {
     setForm({ ...form, [name]: value });
   };
 
-  const handleImageChange = (idx, file) => {
-    const newImages = [...images];
-    newImages[idx] = file;
-    setImages(newImages.filter(Boolean));
+  const handleImageChange = (index, newImageUrl) => {
+    setImages(prev => {
+      const newImages = [...prev];
+      newImages[index] = newImageUrl;
+      return newImages;
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMsg('Envoi en cours...');
 
-    let imageUrls = [];
-    const existingImageUrls = images.filter(img => typeof img === 'string');
-    imageUrls.push(...existingImageUrls);
+    // Determine images to delete from storage
+    const toDelete = initialImages.filter(url => url && !images.includes(url));
+    if (toDelete.length > 0) {
+      const pathsToDelete = toDelete.map(url => {
+        const parts = url.split('/');
+        return `actualites/${parts[parts.length - 1]}`;
+      });
+      const { error: deleteError } = await supabase.storage.from('images').remove(pathsToDelete);
+      if (deleteError) {
+        console.error('Error deleting old images:', deleteError);
+        setSubmitMsg(`Erreur lors de la suppression des anciennes images: ${deleteError.message}`);
+        return;
+      }
+    }
 
-    for (let i = 0; i < images.length; i++) {
-      const file = images[i];
-      if (typeof file !== 'string') {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
-        const { data, error } = await supabase.storage.from('actualites').upload(fileName, file);
+    // Upload new images and collect all image URLs
+    let imageUrls = [];
+    for (const img of images) {
+      if (img === null) continue; // Skip null slots
+      if (typeof img === 'string') {
+        imageUrls.push(img); // Existing image URL
+      } else { // New file object
+        const fileExt = img.name.split('.').pop();
+        const fileName = `actualites/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+        const { data, error } = await supabase.storage.from('images').upload(fileName, img);
         if (error) {
-          setSubmitMsg('Erreur lors du téléchargement de l\'image : ' + error.message);
+          setSubmitMsg(`Erreur lors du téléchargement de l\'image : ${error.message}`);
           return;
         }
-        const { data: { publicUrl } } = supabase.storage.from('actualites').getPublicUrl(fileName);
+        const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
         imageUrls.push(publicUrl);
       }
     }
@@ -123,41 +146,19 @@ export default function ModifierActualite() {
             <label style={{ fontWeight: 700, marginBottom: 4, display: 'block' }}>Détails de l'actualité <span style={{ color: '#e53935' }}>*</span></label>
             <textarea name="details" value={form.details} onChange={handleChange} placeholder="Décrivez les détails de l'actualité..." required style={{ width: '100%', marginBottom: 6, borderRadius: 10, border: '1.5px solid #b3c0d1', padding: '0.8rem', fontWeight: 500, fontSize: '1.08rem', background: '#fafdff' }} rows={5} />
 
-            <label style={{ fontWeight: 700, marginBottom: 4, display: 'block' }}>Joindre des photos (jusqu'à 3)</label>
-            <div style={{ display: 'flex', gap: 18, marginBottom: 10, flexWrap: 'wrap' }}>
-              {[0, 1, 2].map((idx) => (
-                <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <label htmlFor={`photo-upload-${idx}`} style={{
-                    width: 70, height: 70, background: '#f6f8fa', border: '2px dashed #b3c0d1', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'border 0.2s', fontSize: idx === 0 ? 32 : 28, marginBottom: 6
-                  }}>
-                    {images[idx] ? (
-                      typeof images[idx] === 'string' ? (
-                        <img src={images[idx]} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} />
-                      ) : (
-                        <span role="img" aria-label="image">🖼️</span>
-                      )
-                    ) : (
-                      <span style={{ fontSize: 32, color: '#b3c0d1' }}>+</span>
-                    )}
-                    <input id={`photo-upload-${idx}`} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-                      handleImageChange(idx, file);
-                    }} />
-                  </label>
-                  <div style={{ fontSize: 12, minHeight: 18, maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'center' }}>
-                    {typeof images[idx] === 'string' ? images[idx].split('/').pop() : images[idx]?.name || ''}
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Use the new ImageManager component */}
+            <ImageManager
+              images={images}
+              onImageChange={handleImageChange}
+              storageBucket="actualites"
+            />
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 18 }}>
             <button type="submit" style={{ background: '#143c6d', color: '#fff', border: 'none', borderRadius: '10px', padding: '1rem 2.7rem', fontWeight: 700, fontSize: '1.13rem', boxShadow: '0 2px 8px rgba(20,60,109,0.09)', transition: 'background 0.2s' }}>
               Mettre à jour l'actualité
             </button>
-            {submitMsg && <div style={{ marginTop: 14, color: '#2e7d32', fontWeight: 600, fontSize: '1.07rem' }}>{submitMsg}</div>}
+            {submitMsg && <div style={{ marginTop: 14, color: submitMsg.includes('Erreur') ? '#e53935' : '#2e7d32', fontWeight: 600, fontSize: '1.07rem' }}>{submitMsg}</div>}
           </div>
         </form>
       </div>

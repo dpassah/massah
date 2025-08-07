@@ -170,7 +170,7 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>الصفحة الرئيسية – DPASSAH</title>
+        <title>Accueil – DPASSAH</title>
         <meta name="description" content="Tableau de bord et dernières mises à jour sur les actions sociales, la solidarité et les affaires humanitaires." />
       </Head>
 

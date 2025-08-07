@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import { supabase } from '../../../lib/supabaseClient';
 import Head from 'next/head';
+import ImageManager from '../../../components/ImageManager';
 
 const ACTION_TYPES = [
   { value: 'sensibilisation', label: 'Séance de sensibilisation' },
@@ -11,57 +12,6 @@ const ACTION_TYPES = [
   { value: 'plaidoyer', label: 'Plaidoyer' },
   { value: 'autre', label: 'Autre' }
 ];
-
-/* ---------- ImageManager Component (reused from modifier-rapport) ---------- */
-const ImageManager = ({ images = [], onImageDelete, onNewImages, storageBucket }) => {
-  const handleNewImages = async (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-
-    const newImageUrls = [];
-    for (const file of files) {
-      const fileName = `${storageBucket}/${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage.from('images').upload(fileName, file);
-      if (error) {
-        console.error('Upload error:', error);
-        continue;
-      }
-      const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
-      newImageUrls.push(publicUrl);
-    }
-    onNewImages(newImageUrls);
-  };
-
-  return (
-    <div style={{ gridColumn: '1 / -1' }}>
-      <label>Images</label>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-        {images.map((img, i) => (
-          <div key={i} style={{ position: 'relative', width: 100, height: 100 }}>
-            <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }} />
-            <button
-              onClick={() => onImageDelete(img)}
-              style={{
-                position: 'absolute', top: 2, right: 2,
-                background: 'rgba(0,0,0,0.6)', color: '#fff',
-                border: 'none', borderRadius: '50%', width: 20, height: 20,
-                cursor: 'pointer', lineHeight: '20px', textAlign: 'center', padding: 0
-              }}
-            >
-              X
-            </button>
-          </div>
-        ))}
-        <div style={{ width: 100, height: 100, border: '2px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8 }}>
-          <label htmlFor="new-images-upload" style={{ cursor: 'pointer', fontSize: '2rem', color: '#ccc' }}>
-            +
-            <input id="new-images-upload" type="file" multiple accept="image/*" onChange={handleNewImages} style={{ display: 'none' }} />
-          </label>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default function ModifierActionSociale() {
   const router = useRouter();
@@ -103,13 +53,18 @@ export default function ModifierActionSociale() {
       console.error('Error fetching social action:', error); // Debug log
       setSubmitMsg('Erreur lors du chargement de l\'action sociale.');
     } else if (data) {
-      console.log("Fetched social action data:", data); // Debug log
+      // Ensure images array has 3 elements, filling with null if less
+      const imagesArray = data.images ? [...data.images] : [];
+      while (imagesArray.length < 3) {
+        imagesArray.push(null);
+      }
       setForm({
-        ...data,
+        ...
+        images: imagesArray,
         nombre_participants_hommes: data.nombre_participants_hommes || '',
         nombre_participants_femmes: data.nombre_participants_femmes || '',
       });
-      setInitialForm(data);
+      setInitialForm({ ...data, images: imagesArray });
     }
     setLoading(false);
   }
@@ -119,20 +74,20 @@ export default function ModifierActionSociale() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageDelete = (url) => {
-    setForm(prev => ({ ...prev, images: prev.images.filter(u => u !== url) }));
-  };
-
-  const handleNewImages = (urls) => {
-    setForm(prev => ({ ...prev, images: [...(prev.images || []), ...urls] }));
+  const handleImageChange = (index, newImageUrl) => {
+    setForm(prev => {
+      const newImages = [...prev.images];
+      newImages[index] = newImageUrl;
+      return { ...prev, images: newImages };
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMsg('Mise à jour en cours...');
 
-    const initialImages = initialForm.images || [];
-    const currentImages = form.images || [];
+    const initialImages = initialForm.images.filter(Boolean); // Filter out nulls
+    const currentImages = form.images.filter(Boolean); // Filter out nulls
 
     // Determine images to delete from storage
     const toDelete = initialImages.filter(url => !currentImages.includes(url));
@@ -151,15 +106,16 @@ export default function ModifierActionSociale() {
 
     // Upload new images and collect all image URLs
     let imageUrls = [];
-    for (const img of currentImages) {
+    for (const img of form.images) {
+      if (img === null) continue; // Skip null slots
       if (typeof img === 'string') {
         imageUrls.push(img); // Existing image URL
       } else { // New file object
         const fileExt = img.name.split('.').pop();
         const fileName = `action-sociale/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
-        const { error: uploadError } = await supabase.storage.from('images').upload(fileName, img);
-        if (uploadError) {
-          setSubmitMsg(`Erreur lors du téléchargement de l\'image : ${uploadError.message}`);
+        const { data, error } = await supabase.storage.from('images').upload(fileName, img);
+        if (error) {
+          setSubmitMsg(`Erreur lors du téléchargement de l\'image : ${error.message}`);
           return;
         }
         const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
@@ -169,7 +125,7 @@ export default function ModifierActionSociale() {
 
     const { created_at, id: formId, ...updateData } = form;
     const { error: updateError } = await supabase.from('action_sociale').update({
-      ...updateData,
+      ...
       images: imageUrls,
       nombre_participants_hommes: parseInt(updateData.nombre_participants_hommes, 10) || 0,
       nombre_participants_femmes: parseInt(updateData.nombre_participants_femmes, 10) || 0,
@@ -254,9 +210,8 @@ export default function ModifierActionSociale() {
           {/* --- Section Images --- */}
           <ImageManager
             images={form.images}
-            onImageDelete={handleImageDelete}
-            onNewImages={handleNewImages}
-            storageBucket="action-sociale" // Specific bucket for social action images
+            onImageChange={handleImageChange}
+            storageBucket="action-sociale"
           />
 
           {/* --- Soumission --- */}

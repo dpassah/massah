@@ -18,7 +18,7 @@ export default function CreerRapport() {
   function handleImageChange(e) {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
-      setError('يمكنك اختيار 3 صور كحد أقصى');
+      setError('Vous pouvez choisir 3 images au maximum');
       setImages([]);
       return;
     }
@@ -43,7 +43,7 @@ export default function CreerRapport() {
           imageUrls.push(data.publicUrl);
         }
       }
-      // جلب nom_delegue من localStorage
+      // Récupérer nom_delegue depuis localStorage
       const nom_delegue = typeof window !== 'undefined' ? localStorage.getItem('nom_delegue') : '';
       let { error: insertError } = await supabase.from(activeTab).insert([
         {
@@ -61,7 +61,7 @@ export default function CreerRapport() {
         router.push('/mes-rapports');
       }, 1200);
     } catch (err) {
-      setError('خطأ أثناء إنشاء التقرير أو رفع الصور');
+      setError('Erreur lors de la création du rapport ou du téléchargement des images');
     }
     setCreating(false);
   }
@@ -108,7 +108,7 @@ export default function CreerRapport() {
             />
           </div>
           <div style={{ marginBottom: 18 }}>
-            <label style={{ fontWeight: 600 }}>إرفاق صور (حتى 3):</label>
+            <label style={{ fontWeight: 600 }}>Joindre des images (max 3) :</label>
             <input
               type="file"
               accept="image/*"
@@ -120,15 +120,13 @@ export default function CreerRapport() {
             />
             {images.length > 0 && (
               <div style={{ fontSize: 13, color: '#1976d2', marginTop: 6 }}>
-                الصور المختارة: {images.map(f => f.name).join(', ')}
+                Images sélectionnées : {images.map(f => f.name).join(', ')}
               </div>
-            )}
-          </div>
           {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
-          {success && <div style={{ color: 'green', marginBottom: 12 }}>تم إنشاء التقرير بنجاح!</div>}
+          {success && <div style={{ color: 'green', marginBottom: 12 }}>Rapport créé avec succès !</div>}
           <div style={{ display: 'flex', gap: 16 }}>
             <button type="submit" disabled={creating} style={{ background: '#388e3c', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 28px', fontWeight: 700, fontSize: 18 }}>
-              {creating ? '...جاري الإنشاء' : 'إنشاء التقرير'}
+              {creating ? 'Création en cours...' : 'Créer le rapport'}
             </button>
             <button type="button" onClick={() => router.push('/mes-rapports')} style={{ background: '#bdbdbd', color: '#143c6d', border: 'none', borderRadius: 6, padding: '10px 18px', fontWeight: 700, fontSize: 16 }}>
               إلغاء

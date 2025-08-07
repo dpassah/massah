@@ -1,59 +1,8 @@
-// pages/admin/modifier-rapport/[id].js
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import { supabase } from '../../../lib/supabaseClient';
-
-/* ---------- ImageManager ---------- */
-const ImageManager = ({ images = [], onImageDelete, onNewImages, storageBucket }) => {
-  const handleNewImages = async (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-
-    const newImageUrls = [];
-    for (const file of files) {
-      const fileName = `${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage.from(storageBucket).upload(fileName, file);
-      if (error) {
-        console.error('Upload error:', error);
-        continue;
-      }
-      const { data: { publicUrl } } = supabase.storage.from(storageBucket).getPublicUrl(fileName);
-      newImageUrls.push(publicUrl);
-    }
-    onNewImages(newImageUrls);
-  };
-
-  return (
-    <div style={{ gridColumn: '1 / -1' }}>
-      <label>Images</label>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-        {images.map((img, i) => (
-          <div key={i} style={{ position: 'relative', width: 100, height: 100 }}>
-            <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }} />
-            <button
-              onClick={() => onImageDelete(img)}
-              style={{
-                position: 'absolute', top: 2, right: 2,
-                background: 'rgba(0,0,0,0.6)', color: '#fff',
-                border: 'none', borderRadius: '50%', width: 20, height: 20,
-                cursor: 'pointer', lineHeight: '20px', textAlign: 'center', padding: 0
-              }}
-            >
-              X
-            </button>
-          </div>
-        ))}
-        <div style={{ width: 100, height: 100, border: '2px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8 }}>
-          <label htmlFor="new-images-upload" style={{ cursor: 'pointer', fontSize: '2rem', color: '#ccc' }}>
-            +
-            <input id="new-images-upload" type="file" multiple accept="image/*" onChange={handleNewImages} style={{ display: 'none' }} />
-          </label>
-        </div>
-      </div>
-    </div>
-  );
-};
+import ImageManager from '../../../components/ImageManager'; // Import the new ImageManager
 
 /* ---------- Forms ---------- */
 const InondationsForm = ({ form, handleChange }) => (
@@ -134,8 +83,13 @@ export default function ModifierRapport() {
         setSubmitMsg('Rapport non trouvé.');
         setForm(null);
       } else {
-        setForm(data);
-        setInitialForm(data);
+        // Ensure images array has 3 elements, filling with null if less
+        const imagesArray = data.images ? [...data.images] : [];
+        while (imagesArray.length < 3) {
+          imagesArray.push(null);
+        }
+        setForm({ ...data, images: imagesArray });
+        setInitialForm({ ...data, images: imagesArray });
       }
       setLoading(false);
     };
@@ -147,25 +101,57 @@ export default function ModifierRapport() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageDelete = (url) =>
-    setForm(prev => ({ ...prev, images: prev.images.filter(u => u !== url) }));
-  const handleNewImages = (urls) =>
-    setForm(prev => ({ ...prev, images: [...(prev.images || []), ...urls] }));
+  const handleImageChange = (index, newImageUrl) => {
+    setForm(prev => {
+      const newImages = [...prev.images];
+      newImages[index] = newImageUrl;
+      return { ...prev, images: newImages };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMsg('Mise à jour...');
 
-    const initialImages = initialForm.images || [];
-    const currentImages = form.images || [];
-    const toDelete = initialImages.filter(u => !currentImages.includes(u));
-    if (toDelete.length) {
-      const paths = toDelete.map(u => u.split(`/${type}/`)[1]).filter(Boolean);
-      if (paths.length) await supabase.storage.from(type).remove(paths);
+    const initialImages = initialForm.images.filter(Boolean); // Filter out nulls
+    const currentImages = form.images.filter(Boolean); // Filter out nulls
+
+    // Determine images to delete from storage
+    const toDelete = initialImages.filter(url => !currentImages.includes(url));
+    if (toDelete.length > 0) {
+      const pathsToDelete = toDelete.map(url => {
+        const parts = url.split('/');
+        return `${type}/${parts[parts.length - 1]}`;
+      });
+      const { error: deleteError } = await supabase.storage.from('images').remove(pathsToDelete);
+      if (deleteError) {
+        console.error('Error deleting old images:', deleteError);
+        setSubmitMsg(`Erreur lors de la suppression des anciennes images: ${deleteError.message}`);
+        return;
+      }
+    }
+
+    // Upload new images and collect all image URLs
+    let imageUrls = [];
+    for (const img of form.images) {
+      if (img === null) continue; // Skip null slots
+      if (typeof img === 'string') {
+        imageUrls.push(img); // Existing image URL
+      } else { // New file object
+        const fileExt = img.name.split('.').pop();
+        const fileName = `${type}/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+        const { data, error } = await supabase.storage.from('images').upload(fileName, img);
+        if (error) {
+          setSubmitMsg(`Erreur lors du téléchargement de l\'image : ${error.message}`);
+          return;
+        }
+        const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(fileName);
+        imageUrls.push(publicUrl);
+      }
     }
 
     const { created_at, id: fid, ...update } = form;
-    const { error } = await supabase.from(type).update(update).eq('id', id);
+    const { error } = await supabase.from(type).update({ ...update, images: imageUrls }).eq('id', id);
     if (error) {
       setSubmitMsg(`Erreur: ${error.message}`);
     } else {
@@ -188,8 +174,7 @@ export default function ModifierRapport() {
 
           <ImageManager
             images={form.images}
-            onImageDelete={handleImageDelete}
-            onNewImages={handleNewImages}
+            onImageChange={handleImageChange}
             storageBucket={type}
           />
 

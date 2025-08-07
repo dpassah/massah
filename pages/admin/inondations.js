@@ -58,7 +58,7 @@ export default function AdminInondations() {
               signataire: data?.nom_delegue || p || ''
             }));
             if (!data?.province) {
-              alert('تنبيه: لا يوجد ولاية مسجلة لهذا الحساب في قاعدة البيانات.');
+              alert('Attention : Aucune province n'est enregistrée pour ce compte dans la base de données.');
             }
           });
       }
@@ -73,7 +73,7 @@ export default function AdminInondations() {
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
-      alert('يمكنك رفع 3 صور كحد أقصى.');
+      alert('Vous pouvez téléverser jusqu’à 3 images maximum.');
       return;
     }
     setImages(files);
@@ -215,7 +215,7 @@ export default function AdminInondations() {
                     width:70,height:70,background:'#f6f8fa',border:'2px dashed #b3c0d1',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',transition:'border 0.2s',fontSize:idx===0?32:28,marginBottom:6
                   }}>
                     {images[idx] ? (
-                      <span role="img" aria-label="image">صورة</span>
+                      <span role="img" aria-label="image">🖼️</span>
                     ) : (
                       <span style={{fontSize:32,color:'#b3c0d1'}}>+</span>
                     )}

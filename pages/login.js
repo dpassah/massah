@@ -15,19 +15,19 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    // 1) تسجيل الدخول عبر Supabase Auth
+    // 1) Connexion via Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email: email.trim().toLowerCase(),   // البريد الإلكتروني يجب أن يكون فريداً
+      email: email.trim().toLowerCase(),   // L'e-mail doit être unique
       password: password.trim(),
     });
 
     if (authError || !authData.user) {
-      console.error("Supabase auth error:", authError); // طباعة الخطأ في الكونسول
+      console.error("Supabase auth error:", authError); // Afficher l'erreur dans la console
       setError('Identifiants incorrects.');
       return;
     }
 
-    // 2) استرجاع بيانات المستخدم من جدول comptes
+    // 2) Récupération des données utilisateur depuis la table 'comptes'
     const { data: compteData, error: dbError } = await supabase
       .from('comptes')
       .select('*')
@@ -39,7 +39,7 @@ export default function Login() {
       return;
     }
 
-    // 3) حفظ بيانات الجلسة (اختياري)
+    // 3) Sauvegarde des données de session (facultatif)
     localStorage.setItem('msaah_logged_in', 'true');
     localStorage.setItem('username', compteData.username);
     localStorage.setItem('userRole', compteData.userrole);

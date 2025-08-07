@@ -137,7 +137,7 @@ export default function AdminGestion() {
   const [expanded, setExpanded] = useState({});
   const router = useRouter();
 
-  /* --------- جلب البيانات --------- */
+  /* --------- Récupération des données --------- */
   useEffect(() => {
     fetchAllReports();
   }, []);
@@ -164,7 +164,7 @@ export default function AdminGestion() {
     setLoading(false);
   }
 
-  /* --------- مساعدات --------- */
+  /* --------- Fonctions utilitaires --------- */
   const formatDate = d => d ? new Date(d).toLocaleDateString('fr-FR') : '';
   const formatDateTime = d => d ? new Date(d).toLocaleString('fr-FR') : '';
   const toggle = id => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
@@ -177,12 +177,12 @@ export default function AdminGestion() {
     router.push(paths[type] || `/admin/modifier-rapport/${id}?type=${type}`);
   };
 
-  /* --------- تصفية حسب التصنيف --------- */
+  /* --------- Filtrage par catégorie --------- */
   const filteredReports = activeTab === 'all_reports'
     ? allReports
     : allReports.filter(r => r._type === activeTab);
 
-  /* --------- تجميع حسب الولاية والشهر --------- */
+  /* --------- Regroupement par province et par mois --------- */
   const grouped = filteredReports.reduce((acc, r) => {
     const p = r._province || (r._type === 'actualites' ? 'Actualités' : 'غير محدد');
     const m = new Date(r._reportDate).toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
@@ -201,7 +201,7 @@ export default function AdminGestion() {
   /* --------- تصدير PDF ---------- */
   const generatePdf = async (province, monthName, reports) => {
     try {
-      /* 1) جلب الموارد الخارجية */
+      /* 1) Récupération des ressources externes */
       const fontPromise = fetch('/DejaVuSans.ttf')
         .then(res => res.blob())
         .then(blob => new Promise((resolve, reject) => {
@@ -220,7 +220,7 @@ export default function AdminGestion() {
         }));
       const [fontData, imgData] = await Promise.all([fontPromise, imagePromise]);
 
-      /* 2) إنشاء الـ PDF */
+      /* 2) Création du PDF */
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
       const fontB64 = fontData.split(',')[1];
       doc.addFileToVFS('DejaVuSans.ttf', fontB64);
@@ -232,14 +232,14 @@ export default function AdminGestion() {
       const imgWidth = 20; const imgHeight = 20; const gap = 5;
       const logoX = (pageWidth - imgWidth) / 2;
 
-      /* رأس الصفحة */
+      /* En-tête de page */
       doc.addImage(imgData, 'PNG', logoX, 10, imgWidth, imgHeight);
       doc.setFontSize(12);
       doc.text("Ministère de l'Action Sociale, de la Solidarité et des Affaires Humanitaires", pageWidth / 2, 10 + imgHeight + gap, { align: 'center' });
       doc.setFontSize(16);
       doc.text(`Rapports ${province} – ${monthName}`, pageWidth / 2, 10 + imgHeight + gap + 10, { align: 'center' });
 
-      /* 3) بناء الجداول لكل نوع تقرير */
+      /* 3) Construction des tableaux pour chaque type de rapport */
       let finalY = 55; // Initial Y position for the first table
 
       const reportsByType = reports.reduce((acc, r) => {
@@ -317,7 +317,7 @@ export default function AdminGestion() {
         finalY += 10; // Space between different report types
       }
 
-      /* 4) التذييل */
+      /* 4) Pied de page */
       const pageCount = doc.internal.getNumberOfPages();
       const now = new Date();
       const exportTime = `Exporté le: ${now.toLocaleDateString('fr-FR')} à ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
@@ -337,7 +337,7 @@ export default function AdminGestion() {
     }
   };
 
-  /* --------- عرض --------- */
+  /* --------- Affichage --------- */
   const renderCell = (c, r) => {
     const v = r[c.key];
     if (c.key === 'description' || c.key === 'details') {

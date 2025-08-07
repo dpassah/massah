@@ -61,7 +61,7 @@ export default function AdminAides() {
               signataire: data?.nom_delegue || p || ''
             }));
             if (!data?.province) {
-              alert('تنبيه: لا يوجد ولاية مسجلة لهذا الحساب في قاعدة البيانات.');
+              alert('Attention : Aucune province n'est enregistrée pour ce compte dans la base de données.');
             }
           });
       }
@@ -96,7 +96,7 @@ export default function AdminAides() {
         const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
         const { data, error } = await supabase.storage.from('aides').upload(fileName, file);
         if (error) {
-          setSubmitMsg('خطأ في رفع الصور: ' + error.message);
+          setSubmitMsg('Erreur lors du téléchargement des images : ' + error.message);
           return;
         }
         imageUrls.push(data.path);

@@ -15,14 +15,14 @@ export default function Layout({ children }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
-  /* ====== 1) استرجاع الحالة من localStorage عند تحميل الصفحة ====== */
+  /* ====== 1) Récupération de l'état depuis localStorage au chargement de la page ====== */
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const loggedIn = localStorage.getItem('isLoggedIn') === 'true' || localStorage.getItem('msaah_logged_in') === '1';
       setIsLoggedIn(loggedIn);
 
       const storedRole = localStorage.getItem('userRole') || '';
-      setUserRole(storedRole); // <─ ضمان وجود القيمة في الـstate
+      setUserRole(storedRole); // Assurer la présence de la valeur dans l'état
 
       const storedUsername = localStorage.getItem('username') || '';
       if (storedUsername && storedUsername !== 'null' && storedUsername !== 'undefined') {
@@ -46,7 +46,7 @@ export default function Layout({ children }) {
     }
   }, []);
 
-  /* ====== 2) تسجيل الدخول ====== */
+  /* ====== 2) Connexion ====== */
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -103,7 +103,7 @@ export default function Layout({ children }) {
     router.push('/admin'); // Redirect to admin or dashboard
   };
 
-  /* ====== 3) تسجيل الخروج ====== */
+  /* ====== 3) Déconnexion ====== */
   const handleLogout = async () => {
     // First, sign out from Supabase to invalidate the session
     await supabase.auth.signOut();
@@ -123,10 +123,10 @@ export default function Layout({ children }) {
     router.push('/');
   };
 
-  /* ====== 4) طباعة تصحيحية (اختياري) ====== */
+  /* ====== 4) Débogage (optionnel) ====== */
   console.log('[DEBUG] Layout userInfo:', userInfo, 'userRole:', userRole, 'isLoggedIn:', isLoggedIn);
 
-  /* ====== 5) الـ JSX ====== */
+  /* ====== 5) Le JSX ====== */
   return (
     <>
       {showLoginModal && (
@@ -152,7 +152,7 @@ export default function Layout({ children }) {
             <Image src="/logo.png" alt="Logo" width={90} height={90} className="header-logo" />
             <div className="header-title-container">
               <Link href="/" className="header-link">
-                <h1 className="header-title">Plateforme des Délégués Provinciaux</h1>
+                <h1 className="header-title">Accueil</h1>
               </Link>
               <h2 className="header-subtitle">Ministère de l'Action Sociale, de la Solidarité et des Affaires Humanitaires</h2>
             </div>
@@ -165,9 +165,7 @@ export default function Layout({ children }) {
             <Link href="/affaires-humanitaires">Affaires Humanitaires</Link>
             {isLoggedIn && (
               <>
-                {userRole === 'admin' && (
-                  <Link href="/admin" className="admin-link">Espace Admin</Link>
-                )}
+                <Link href="/admin" className="admin-link">Espace Admin</Link>
                 {userRole !== 'admin' && userInfo.username !== 'MASSAH' && (
                   <Link href="/mes-rapports" className="my-reports-link">Mes rapports</Link>
                 )}

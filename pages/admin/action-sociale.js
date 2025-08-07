@@ -189,7 +189,7 @@ export default function ActionSocialeAdmin() {
                     borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'pointer', fontSize: 32, marginBottom: 4
                   }}>
-                    {images[idx] ? 'صورة' : '+'}
+                    {images[idx] ? 'Image' : '+'}
                     <input id={`photo-upload-${idx}`} type="file" accept="image/*" style={{ display: 'none' }}
                            onChange={e => handleImageChange(idx, e.target.files?.[0])} />
                   </label>
