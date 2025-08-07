@@ -194,11 +194,12 @@ export default function Layout({ children }) {
           )}
           {isLoggedIn && userRole === 'admin' && userInfo.username === 'MASSAH' && (
             <>
-              <Link href="/admin/gestion" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}}>Gestion des données</Link>
+              <Link href="/admin/gestion" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}>Gestion des données</Link>
               <Link href="/admin/comptes" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}}>Gestion des comptes</Link>
             </>
           )}
         </nav>
+        </div>
       </header>
 
       <main className="main-content">{children}</main>
