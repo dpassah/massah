@@ -152,7 +152,7 @@ export default function Layout({ children }) {
             <Image src="/logo.png" alt="Logo" width={90} height={90} className="header-logo" />
             <div className="header-title-container">
               <Link href="/" className="header-link">
-                <h1 className="header-title">Plate forme des delegue Provenciaux</h1>
+                <h1 className="header-title">PLATEFORME DES DÉLÉGUÉS PROVINCIAUX</h1>
               </Link>
               <h2 className="header-subtitle">Ministère de l'Action Sociale, de la Solidarité et des Affaires Humanitaires</h2>
             </div>
