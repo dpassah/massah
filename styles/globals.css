@@ -57,9 +57,15 @@ header {
   letter-spacing: 0.5px;
 }
 
+.header-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically within its own container */
+}
+
 .header-subtitle {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 0.8rem; /* Smaller font size for desktop */
   font-weight: 400;
 }
 
