@@ -103,7 +103,6 @@ export default function Layout({ children }) {
     router.push('/admin'); // Redirect to admin or dashboard
   };
 
-
   /* ====== 3) تسجيل الخروج ====== */
   const handleLogout = async () => {
     // First, sign out from Supabase to invalidate the session
@@ -177,28 +176,26 @@ export default function Layout({ children }) {
         </div>
         <div className={`sidebar-container ${isSidebarOpen ? 'open' : ''}`}>
           <nav style={{marginTop:'1rem', display:'flex', justifyContent:'center', gap:'2rem'}}>
-          <Link href="/action-sociale">Action Sociale</Link>
-          <Link href="/solidarite">Solidarité</Link>
-          <Link href="/affaires-humanitaires">Affaires Humanitaires</Link>
-          
-          {isLoggedIn && (
-            <>
-              {isLoggedIn && (
-                <Link href="/admin" style={{fontWeight:700,color:'#f9c846'}}>Espace Admin</Link>
-              )}
-              {isLoggedIn && userRole !== 'admin' && userInfo.username !== 'MASSAH' && (
-                <Link href="/mes-rapports" style={{fontWeight:700,color:'#143c6d',background:'#f9c846',borderRadius:8,padding:'2px 12px',marginLeft:'12px'}}>Mes rapports</Link>
-              )}
-              
-            </>
-          )}
-          {isLoggedIn && userRole === 'admin' && userInfo.username === 'MASSAH' && (
-            <>
-              <Link href="/admin/gestion" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}>Gestion des données</Link>
-              <Link href="/admin/comptes" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}}>Gestion des comptes</Link>
-            </>
-          )}
-        </nav>
+            <Link href="/action-sociale">Action Sociale</Link>
+            <Link href="/solidarite">Solidarité</Link>
+            <Link href="/affaires-humanitaires">Affaires Humanitaires</Link>
+            {isLoggedIn && (
+              <>
+                {isLoggedIn && (
+                  <Link href="/admin" style={{fontWeight:700,color:'#f9c846'}}>Espace Admin</Link>
+                )}
+                {isLoggedIn && userRole !== 'admin' && userInfo.username !== 'MASSAH' && (
+                  <Link href="/mes-rapports" style={{fontWeight:700,color:'#143c6d',background:'#f9c846',borderRadius:8,padding:'2px 12px',marginLeft:'12px'}}>Mes rapports</Link>
+                )}
+              </>
+            )}
+            {isLoggedIn && userRole === 'admin' && userInfo.username === 'MASSAH' && (
+              <>
+                <Link href="/admin/gestion" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}}>Gestion des données</Link>
+                <Link href="/admin/comptes" style={{fontWeight:700,color:'#fff',background:'#143c6d',borderRadius:8,padding:'2px 12px'}}>Gestion des comptes</Link>
+              </>
+            )}
+          </nav>
         </div>
       </header>
 
