@@ -14,7 +14,7 @@ export default function ModifierActualite() {
   });
   const [images, setImages] = useState([null, null, null]); // Initialize with 3 nulls
   const [submitMsg, setSubmitMsg] = useState('');
-  const [loading, setLoading] = true;
+  const [loading, setLoading] = useState(true); // Initialize loading as a state with true
   const [initialImages, setInitialImages] = useState([null, null, null]); // To track original images for deletion
 
   useEffect(() => {
@@ -43,7 +43,10 @@ export default function ModifierActualite() {
     } else if (data) {
       setForm({ title: data.title, details: data.details });
       // Ensure images array has 3 elements, filling with null if less
-      const imagesArray = data.images ? [...data.images] : [];
+      let imagesArray = [];
+      if (Array.isArray(data.images)) {
+        imagesArray = [...data.images];
+      }
       while (imagesArray.length < 3) {
         imagesArray.push(null);
       }
@@ -71,7 +74,10 @@ export default function ModifierActualite() {
     setSubmitMsg('Envoi en cours...');
 
     // Determine images to delete from storage
-    const toDelete = initialImages.filter(url => url && !images.includes(url));
+    let toDelete = [];
+    if (Array.isArray(initialImages)) {
+      toDelete = initialImages.filter(url => url && !images.includes(url));
+    }
     if (toDelete.length > 0) {
       const pathsToDelete = toDelete.map(url => {
         const parts = url.split('/');
