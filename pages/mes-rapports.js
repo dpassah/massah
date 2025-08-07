@@ -286,19 +286,12 @@ export default function MesRapports() {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
           <h2>Mes rapports</h2>
 
-          <div style={{ marginBottom: 16 }}>
+          <div className="tabs-container">
             {TABS.map(t => (
               <button
                 key={t.key}
                 onClick={() => setActive(t.key)}
-                style={{
-                  marginRight: 8,
-                  padding: '6px 12px',
-                  border: '1px solid #143c6d',
-                  background: active === t.key ? '#143c6d' : '#fff',
-                  color: active === t.key ? '#fff' : '#143c6d',
-                  cursor: 'pointer'
-                }}
+                className={`tab-button ${active === t.key ? 'active' : ''}`}
               >
                 {t.label}
               </button>
@@ -306,16 +299,12 @@ export default function MesRapports() {
           </div>
 
           {loading ? (
-            <div>Chargement…</div>
+            <div className="loading-message">Chargement…</div>
           ) : rows.length === 0 ? (
-            <div>Aucune donnée.</div>
+            <div className="no-data-message">Aucune donnée.</div>
           ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table
-                border="1"
-                cellPadding="6"
-                style={{ borderCollapse: 'collapse', width: '100%', minWidth: 800 }}
-              >
+            <div className="table-responsive">
+              <table className="data-table">
                 <thead>
                   <tr>
                     {currentTab.cols.map(c => <th key={c.key}>{c.label}</th>)}
@@ -333,15 +322,7 @@ export default function MesRapports() {
                       <td>
                         <button 
                           onClick={() => handleEdit(r.id)}
-                          style={{
-                            padding: '4px 12px',
-                            background: '#f9c846',
-                            color: '#143c6d',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold'
-                          }}
+                          className="edit-button"
                         >
                           Modifier
                         </button>
@@ -354,5 +335,165 @@ export default function MesRapports() {
           )}
         </div>
       </Layout>
+      <style jsx>{`
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem;
+        }
+        h2 {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          color: #143c6d;
+        }
+        .tabs-container {
+          margin-bottom: 1rem;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+        }
+        .tab-button {
+          padding: 8px 12px;
+          border: 1px solid #143c6d;
+          background: #fff;
+          color: #143c6d;
+          cursor: pointer;
+          border-radius: 4px;
+          transition: background 0.2s, color 0.2s;
+          font-size: 0.9rem;
+        }
+        .tab-button.active {
+          background: #143c6d;
+          color: #fff;
+        }
+        .tab-button:hover:not(.active) {
+          background: #e0e0e0;
+        }
+        .loading-message,
+        .no-data-message {
+          text-align: center;
+          padding: 20px;
+          font-size: 1.1rem;
+          color: #555;
+        }
+        .table-responsive {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          border: 1px solid #ddd;
+        }
+        .data-table {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 800px; /* Ensure table is wide enough for content */
+        }
+        .data-table th,
+        .data-table td {
+          padding: 10px 8px;
+          border-bottom: 1px solid #ddd;
+          text-align: left;
+          vertical-align: top;
+          font-size: 0.85rem;
+        }
+        .data-table th {
+          background-color: #f7f9fc;
+          color: #333;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .data-table tbody tr:nth-child(even) {
+          background-color: #fff;
+        }
+        .data-table tbody tr:nth-child(odd) {
+          background-color: #fcfcfc;
+        }
+        .data-table tbody tr:hover {
+          background-color: #eef8ff;
+        }
+        .edit-button {
+          padding: 6px 10px;
+          background: #f9c846;
+          color: #143c6d;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 0.8rem;
+          transition: background 0.2s;
+        }
+        .edit-button:hover {
+          background: #e0b030;
+        }
+        .image-gallery {
+          display: flex;
+          gap: 4px;
+          flex-wrap: wrap;
+        }
+        .image-gallery img {
+          width: 30px;
+          height: 30px;
+          object-fit: cover;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+        }
+        .expand-button {
+          margin-left: 8px;
+          border: none;
+          background: none;
+          color: #143c6d;
+          cursor: pointer;
+          text-decoration: underline;
+          font-weight: bold;
+          padding: 2px 0;
+          font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+          .container {
+            padding: 1rem;
+          }
+          h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+          }
+          .tabs-container {
+            justify-content: flex-start;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+            padding-bottom: 8px;
+          }
+          .tab-button {
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            padding: 6px 10px;
+          }
+          .data-table {
+            min-width: 600px; /* Adjust min-width for smaller screens */
+          }
+          .data-table th,
+          .data-table td {
+            font-size: 0.75rem;
+            padding: 8px 5px;
+          }
+          .data-table td:first-child {
+            min-width: 120px; /* Adjust for first column */
+          }
+          .edit-button {
+            padding: 4px 8px;
+            font-size: 0.7rem;
+          }
+          .image-gallery img {
+            width: 25px;
+            height: 25px;
+          }
+          .expand-button {
+            font-size: 0.7rem;
+          }
+        }
+      `}</style>
     );
   }

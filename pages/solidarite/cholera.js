@@ -284,15 +284,29 @@ export default function CholeraData() {
         
         @media (max-width: 768px) {
           .data-table {
-            min-width: 900px;
+            /* min-width removed */
           }
           .data-table th, .data-table td {
-            font-size: 0.85rem;
-            padding: 10px 8px;
+            font-size: 0.75rem;
+            padding: 8px 5px;
           }
           .data-table th:first-child,
           .data-table td:first-child {
-            min-width: 150px;
+            min-width: 100px;
+          }
+          div[style*="display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center'"] > div {
+            min-width: 120px !important;
+            max-width: 150px !important;
+            padding: 1rem !important;
+          }
+          div[style*="font-size: '2.5rem'"] {
+            font-size: 1.8rem !important;
+          }
+          div[style*="font-size: '1.1rem'"] {
+            font-size: 0.9rem !important;
+          }
+          div[style*="font-size: '2.2rem'"] {
+            font-size: 1.8rem !important;
           }
         }
       `}</style>
