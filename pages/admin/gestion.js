@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import RequireAuth from '../../components/RequireAuth';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { generateReportsPdf } from '../../lib/pdfExport';
 
 const ALL_REPORT_TABLES = ['inondations', 'cholera', 'aides', 'affaires_humanitaires', 'action_sociale', 'actualites'];
 
