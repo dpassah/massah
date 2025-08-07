@@ -123,7 +123,7 @@ export default function AdminInondations() {
 
   return (
     <Layout>
-      <div style={{maxWidth:800,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
+      <div className="admin-form-container" style={{maxWidth:800,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
         <h1 style={{fontSize:'1.6rem',color:'#143c6d',marginBottom:'1.8rem',textAlign:'center',letterSpacing:'1px'}}>Déclaration d'un sinistre d'inondation</h1>
         <form onSubmit={handleSubmit} style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))',gap:'2rem 3%',alignItems:'flex-start'}}>
           {/* Section principale */}
@@ -250,6 +250,45 @@ export default function AdminInondations() {
           </div>
         </form>
       </div>
+      <style jsx>{`
+        .admin-form-container {
+          padding: 1.5rem !important;
+        }
+        @media (max-width: 768px) {
+          form {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          form > div {
+            gap: 10px !important;
+          }
+          form > div > label {
+            margin-bottom: 0 !important;
+          }
+          form > div > input,
+          form > div > select,
+          form > div > textarea {
+            margin-bottom: 0 !important;
+            padding: 0.6rem !important;
+            font-size: 1rem !important;
+          }
+          .image-upload-section {
+            flex-direction: column;
+            align-items: center;
+          }
+          .image-upload-section > div {
+            margin-bottom: 10px;
+          }
+          .image-upload-section label {
+            width: 60px !important;
+            height: 60px !important;
+            font-size: 28px !important;
+          }
+          .image-upload-section div div {
+            font-size: 11px !important;
+          }
+        }
+      `}</style>
     </Layout>
   );
 }

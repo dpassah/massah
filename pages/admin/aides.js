@@ -140,7 +140,7 @@ export default function AdminAides() {
 
   return (
     <Layout>
-      <div style={{maxWidth:900,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
+      <div className="admin-form-container" style={{maxWidth:900,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
         <h1 style={{fontSize:'1.6rem',color:'#143c6d',marginBottom:'1.8rem',textAlign:'center',letterSpacing:'1px'}}>Déclaration d'une aide</h1>
         <form onSubmit={handleSubmit} style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))',gap:'2rem 3%',alignItems:'flex-start'}}>
           <div style={{display:'flex',flexDirection:'column',gap:14}}>
@@ -223,6 +223,9 @@ export default function AdminAides() {
         </form>
       </div>
       <style jsx>{`
+        .admin-form-container {
+          padding: 1.5rem !important;
+        }
         @media (max-width: 768px) {
           form {
             grid-template-columns: 1fr !important;

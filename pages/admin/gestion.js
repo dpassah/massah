@@ -358,7 +358,7 @@ export default function AdminGestion() {
   return (
     <RequireAuth role="admin">
       <Layout>
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem' }}>
+        <div className="admin-table-container" style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem' }}>
           <h2>Gestion des données</h2>
           <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
             {['all_reports', ...ALL_REPORT_TABLES].map(tab => (

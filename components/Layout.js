@@ -12,6 +12,7 @@ export default function Layout({ children }) {
   const [error, setError] = useState('');
   const [userRole, setUserRole] = useState('');
   const [userInfo, setUserInfo] = useState({ username: '', province: '', nom_delegue: '' });
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
   /* ====== 1) استرجاع الحالة من localStorage عند تحميل الصفحة ====== */
@@ -161,8 +162,11 @@ export default function Layout({ children }) {
         </div>
       )}
 
-      <header style={{background:'#143c6d', color:'#fff', padding:'1.5rem 0 1rem 0', boxShadow:'0 2px 8px rgba(20,60,109,0.07)'}}>
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'1.5rem',flexWrap:'wrap'}}>
+      <header className="main-header" style={{background:'#143c6d', color:'#fff', padding:'1.5rem 0 1rem 0', boxShadow:'0 2px 8px rgba(20,60,109,0.07)'}}>
+        <button className="sidebar-toggle" onClick={() => setSidebarOpen(!isSidebarOpen)}>
+          <span className="hamburger-icon"></span>
+        </button>
+        <div className="header-content" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'1.5rem',flexWrap:'wrap'}}>
           <Image src="/logo.png" alt="Logo" width={90} height={90} style={{background:'#fff',borderRadius:'50%',border:'2px solid #143c6d',boxShadow:'0 2px 8px rgba(20,60,109,0.15)'}} />
           <div>
             <Link href="/" style={{textDecoration:'none', color:'#fff'}}>
@@ -171,7 +175,8 @@ export default function Layout({ children }) {
             <h2 style={{margin:0, fontSize:'1.1rem', fontWeight:400}}>Ministère de l'Action Sociale, de la Solidarité et des Affaires Humanitaires</h2>
           </div>
         </div>
-        <nav style={{marginTop:'1rem', display:'flex', justifyContent:'center', gap:'2rem'}}>
+        <div className={`sidebar-container ${isSidebarOpen ? 'open' : ''}`}>
+          <nav style={{marginTop:'1rem', display:'flex', justifyContent:'center', gap:'2rem'}}>
           <Link href="/action-sociale">Action Sociale</Link>
           <Link href="/solidarite">Solidarité</Link>
           <Link href="/affaires-humanitaires">Affaires Humanitaires</Link>

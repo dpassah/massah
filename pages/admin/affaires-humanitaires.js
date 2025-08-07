@@ -136,7 +136,7 @@ export default function AffairesHumanitairesAdmin() {
       <Head>
         <title>Saisie Affaires Humanitaires</title>
       </Head>
-      <div style={{ maxWidth: 900, margin: '2.5rem auto', background: '#fff', padding: '2.5rem', borderRadius: 20, boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
+      <div className="admin-form-container" style={{ maxWidth: 900, margin: '2.5rem auto', background: '#fff', padding: '2.5rem', borderRadius: 20, boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
         <h1 style={{ fontSize: '1.6rem', color: '#143c6d', marginBottom: '1.8rem', textAlign: 'center' }}>
           Enregistrer une Action Humanitaire
         </h1>
@@ -275,6 +275,15 @@ export default function AffairesHumanitairesAdmin() {
         }
         .dynamic-form input[readonly] {
           background: #f6f8fa;
+        }
+
+        @media (max-width: 768px) {
+          .admin-form-container {
+            padding: 1.5rem !important;
+          }
+          .dynamic-form .form-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </Layout>

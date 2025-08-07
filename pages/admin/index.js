@@ -48,7 +48,7 @@ const cards = [
 export default function AdminDashboard() {
   return (
     <Layout>
-      <div style={{maxWidth:850,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
+      <div className="admin-dashboard" style={{maxWidth:850,margin:'2.5rem auto',background:'#fff',padding:'2.5rem',borderRadius:'20px',boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
         <h1 style={{fontSize:'1.7rem',color:'#143c6d',marginBottom:'2.2rem',textAlign:'center',letterSpacing:'1px'}}>Tableau de bord administratif</h1>
         <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(270px,1fr))',gap:'2.2rem 2.5rem'}}>
           {cards.map(card => (

@@ -113,7 +113,7 @@ export default function ModifierActualite() {
         <title>Modifier Actualité – DPASSAH</title>
       </Head>
 
-      <div style={{ maxWidth: 800, margin: '2.5rem auto', background: '#fff', padding: '2.5rem', borderRadius: '20px', boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
+      <div className="admin-form-container" style={{ maxWidth: 800, margin: '2.5rem auto', background: '#fff', padding: '2.5rem', borderRadius: '20px', boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
         <h1 style={{ fontSize: '1.6rem', color: '#143c6d', marginBottom: '1.8rem', textAlign: 'center', letterSpacing: '1px' }}>Modifier l'actualité</h1>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', alignItems: 'flex-start' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -193,6 +193,9 @@ export default function ModifierActualite() {
           }
           .image-upload-section div div {
             font-size: 11px !important;
+          }
+          .admin-form-container {
+            padding: 1.5rem !important;
           }
         }
       `}</style>

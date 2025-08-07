@@ -111,12 +111,12 @@ export default function ModifierCompte() {
   return (
     <RequireAuth role="admin">
       <Layout>
-        <div style={{ maxWidth: 600, margin: '2rem auto', background: '#fff', padding: '2.5rem', borderRadius: 20, boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
+        <div className="admin-form-container" style={{ maxWidth: 600, margin: '2rem auto', background: '#fff', padding: '2.5rem', borderRadius: 20, boxShadow: '0 4px 24px rgba(20,60,109,0.11)' }}>
           <h1 style={{ fontSize: '1.4rem', color: '#143c6d', marginBottom: '1.5rem', textAlign: 'center' }}>
             Modifier le compte utilisateur
           </h1>
 
-          <form onSubmit={handleSave}>
+          <form onSubmit={handleSave} className="admin-form">
             <div style={{ marginBottom: '1rem' }}>
               <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
                 Nom d'utilisateur :
@@ -206,6 +206,29 @@ export default function ModifierCompte() {
             </div>
           </form>
         </div>
+        <style jsx>{`
+          @media (max-width: 768px) {
+            .admin-form-container {
+              padding: 1.5rem !important;
+            }
+            .admin-form > div {
+              margin-bottom: 0.8rem !important;
+            }
+            .admin-form label {
+              font-size: 0.9rem !important;
+            }
+            .admin-form input,
+            .admin-form select,
+            .admin-form textarea {
+              padding: 0.6rem !important;
+              font-size: 0.9rem !important;
+            }
+            .admin-form button {
+              padding: 0.6rem 1rem !important;
+              font-size: 0.9rem !important;
+            }
+          }
+        `}</style>
       </Layout>
     </RequireAuth>
   );

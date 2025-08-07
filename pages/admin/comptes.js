@@ -62,7 +62,7 @@ export default function AdminComptes() {
   return (
     <RequireAuth role="admin">
       <Layout>
-        <div style={{maxWidth:900,margin:'2rem auto',background:'#fff',padding:'2.5rem',borderRadius:20,boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
+        <div className="admin-table-container" style={{maxWidth:900,margin:'2rem auto',background:'#fff',padding:'2.5rem',borderRadius:20,boxShadow:'0 4px 24px rgba(20,60,109,0.11)'}}>
           <h1 style={{fontSize:'1.4rem',color:'#143c6d',marginBottom:'1.5rem',textAlign:'center'}}>Gestion des comptes utilisateurs</h1>
           <button
             onClick={handleClearAllReportData}

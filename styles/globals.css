@@ -91,4 +91,147 @@ nav a:hover {
   nav a {
     font-size: 1rem;
   }
+
+  .main-header .header-content {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    padding: 0 1rem;
+  }
+
+  .main-header .header-content img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .main-header .header-content h1 {
+    font-size: 1.1rem !important;
+  }
+
+  .main-header .header-content h2 {
+    font-size: 0.9rem !important;
+  }
+
+  .sidebar-container {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: #143c6d;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar-container.open {
+    left: 0;
+  }
+
+  .sidebar-container nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .sidebar-container nav a {
+    color: #fff;
+    font-size: 1.1rem;
+  }
+
+  .sidebar-toggle {
+    display: none; /* Hide by default */
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+  }
+
+  .hamburger-icon {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    position: relative;
+  }
+
+  .hamburger-icon::before,
+  .hamburger-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    left: 0;
+  }
+
+  .hamburger-icon::before {
+    top: -8px;
+  }
+
+  .hamburger-icon::after {
+    bottom: -8px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar-toggle {
+      display: block; /* Show on mobile */
+    }
+  }
+
+  .admin-dashboard {
+    padding: 1.5rem !important;
+  }
+
+  .admin-dashboard h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .admin-dashboard div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .admin-table-container {
+    padding: 1.5rem !important;
+  }
+
+  .admin-table-container table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-table-container th,
+  .admin-table-container td {
+    font-size: 0.8rem !important;
+    padding: 6px 2px !important;
+  }
+
+  .admin-form-container {
+    padding: 1.5rem !important;
+  }
+
+  .admin-form-container form > div {
+    margin-bottom: 0.8rem !important;
+  }
+
+  .admin-form-container form label {
+    font-size: 0.9rem !important;
+  }
+
+  .admin-form-container form input,
+  .admin-form-container form select,
+  .admin-form-container form textarea {
+    padding: 0.6rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .admin-form-container form button {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
 }

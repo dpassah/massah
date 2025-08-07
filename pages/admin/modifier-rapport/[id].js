@@ -179,7 +179,7 @@ export default function ModifierRapport() {
 
   return (
     <Layout>
-      <div style={{ maxWidth: 800, margin: '2rem auto', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
+      <div className="admin-form-container" style={{ maxWidth: 800, margin: '2rem auto', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
         <h1 style={{ textAlign: 'center', color: '#143c6d' }}>Modifier {type} #{id}</h1>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           {type === 'inondations' && <InondationsForm form={form} handleChange={handleChange} />}
@@ -201,6 +201,45 @@ export default function ModifierRapport() {
           </div>
         </form>
       </div>
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .admin-form-container {
+            padding: 1.5rem !important;
+          }
+          form {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          form > div {
+            gap: 10px !important;
+          }
+          form > div > label {
+            margin-bottom: 0 !important;
+          }
+          form > div > input,
+          form > div > select,
+          form > div > textarea {
+            margin-bottom: 0 !important;
+            padding: 0.6rem !important;
+            font-size: 1rem !important;
+          }
+          .image-upload-section {
+            flex-direction: column;
+            align-items: center;
+          }
+          .image-upload-section > div {
+            margin-bottom: 10px;
+          }
+          .image-upload-section label {
+            width: 60px !important;
+            height: 60px !important;
+            font-size: 28px !important;
+          }
+          .image-upload-section div div {
+            font-size: 11px !important;
+          }
+        }
+      `}</style>
     </Layout>
   );
 }
