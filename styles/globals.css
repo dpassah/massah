@@ -76,3 +76,19 @@ nav a:hover {
   margin-top: 2rem;
   font-size: 0.95rem;
 }
+
+@media (max-width: 768px) {
+  header {
+    padding: 1rem 0;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  nav a {
+    font-size: 1rem;
+  }
+}
